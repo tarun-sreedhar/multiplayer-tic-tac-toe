@@ -18,12 +18,19 @@ def drawBoard(board):
     print(' ' + board[1] + ' | ' + board[2] + ' | ' + board[3])
     print('   |   |')
 
+def playerNames():
+    print("What is the name of player 1?")
+    p1 = input()
+    print("What is the name of player 2?")
+    p2 = input()
+    return {"player 1": p1, "player 2": p2}
+
 def inputPlayerLetter():
     # Lets the player type which letter they want to be.
     # Returns a list with the player's letter as the first item, and the computer's letter as the second.
     letter = ''
     while not (letter == 'X' or letter == 'O'):
-        print('Do you want to be X or O?')
+        print(playerNames["player "+str(random.randint(1, 2))]+', pick a letter. (X or O)')
         letter = input().upper()
 
     # the first element in the tuple is the player's letter, the second is the computer's letter.
@@ -77,7 +84,7 @@ def getPlayerMove(board, player):
     move = ' '
     while move not in '1 2 3 4 5 6 7 8 9'.split() or not isSpaceFree(board, int(move)):
         print()
-        print(player + ': What is your next move? (1-9)')
+        print(playerNames[player] + ': What is your next move? (1-9)')
         move = input()
     return int(move)
 
@@ -143,9 +150,11 @@ print('Welcome to Tic Tac Toe!')
 while True:
     # Reset the board
     theBoard = [' '] * 10
+    playerNames = playerNames()
     p1Letter, p2Letter = inputPlayerLetter()
     turn = whoGoesFirst()
-    print(turn + ' will go first.')
+    player = playerNames[turn]
+    print(player + ' will go first.')
     gameIsPlaying = True
 
     while gameIsPlaying:
@@ -157,7 +166,7 @@ while True:
 
             if isWinner(theBoard, p1Letter):
                 drawBoard(theBoard)
-                print('Hooray! Player 1 has won the game!')
+                print('Hooray! '+player+' has won the game!')
                 gameIsPlaying = False
             else:
                 if isBoardFull(theBoard):
@@ -176,7 +185,7 @@ while True:
 
                 if isWinner(theBoard, p2Letter):
                     drawBoard(theBoard)
-                    print('Hooray! Player 2 has won the game!')
+                    print('Hooray! '+player+' has won the game!')
                     gameIsPlaying = False
                 else:
                     if isBoardFull(theBoard):
